@@ -1,6 +1,6 @@
 package galaxy.shoppe.microserviceorder.web.controllers;
 
-import galaxy.shoppe.microserviceorder.dao.models.Order;
+import galaxy.shoppe.microserviceorder.dao.entities.Order;
 import galaxy.shoppe.microserviceorder.services.OrderService;
 import galaxy.shoppe.microserviceorder.web.exceptions.OrderNotFoundException;
 import org.springframework.http.HttpStatus;

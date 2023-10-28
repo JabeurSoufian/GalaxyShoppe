@@ -1,5 +1,6 @@
 package galaxy.shoppe.microservicepayment.services.impl;
 
+import galaxy.shoppe.microservicepayment.configs.props.KafkaProperties;
 import galaxy.shoppe.microservicepayment.services.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -9,11 +10,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class NotificationServiceImpl implements NotificationService {
 
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaProperties kafkaProperties;
+    public NotificationServiceImpl(KafkaTemplate<String, String> kafkaTemplate, KafkaProperties kafkaProperties) {
+        this.kafkaTemplate = kafkaTemplate;
+        this.kafkaProperties = kafkaProperties;
+    }
+
+
 
     @Override
-    public void sendMessage(String orderId) {
-        this.kafkaTemplate.send("payment-notification", orderId);
+    public void sendPaidOrderId(String orderId) {
+        this.kafkaTemplate.send(this.kafkaProperties.getPaymentNotificationTopic(), orderId);
     }
 }

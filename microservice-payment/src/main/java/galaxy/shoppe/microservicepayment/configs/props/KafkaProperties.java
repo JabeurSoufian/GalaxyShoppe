@@ -4,10 +4,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "spring.kafka")
+@ConfigurationProperties(prefix = "app.props.kafka")
 public class KafkaProperties {
 
     private String bootstrapServers;
+    private String paymentNotificationTopic;
 
     public String getBootstrapServers() {
         return bootstrapServers;
@@ -15,5 +16,13 @@ public class KafkaProperties {
 
     public void setBootstrapServers(String bootstrapServers) {
         this.bootstrapServers = bootstrapServers;
+    }
+
+    public String getPaymentNotificationTopic() {
+        return paymentNotificationTopic;
+    }
+
+    public void setPaymentNotificationTopic(String paymentNotificationTopic) {
+        this.paymentNotificationTopic = paymentNotificationTopic;
     }
 }

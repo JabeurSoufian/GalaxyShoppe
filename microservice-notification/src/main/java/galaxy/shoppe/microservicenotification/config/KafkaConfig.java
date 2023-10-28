@@ -3,7 +3,6 @@ package galaxy.shoppe.microservicenotification.config;
 import galaxy.shoppe.microservicenotification.config.props.KafkaProperties;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -21,8 +20,8 @@ public class KafkaConfig {
     @Bean
     public ConsumerFactory<String, String> consumerFactory(KafkaProperties kafkaProperties) {
         Map<String, Object> properties = new HashMap<>();
-        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        properties.put(ConsumerConfig.GROUP_ID_CONFIG, "group-id-2");
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaProperties.getGroupId());
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(properties);

@@ -3,5 +3,6 @@ CREATE TABLE customer_order (
     product_id INT,
     order_date DATE,
     quantity INT,
-    order_paid BOOLEAN
+    order_paid BOOLEAN,
+    order_notified BOOLEAN
 );

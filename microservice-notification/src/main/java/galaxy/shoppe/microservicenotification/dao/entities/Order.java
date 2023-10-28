@@ -1,8 +1,14 @@
-package galaxy.shoppe.microservicepayment.models;
+package galaxy.shoppe.microservicenotification.dao.entities;
+
+import jakarta.persistence.*;
 
 import java.util.Date;
 
+@Entity
+@Table(name = "customer_order")
 public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private long productId;
 

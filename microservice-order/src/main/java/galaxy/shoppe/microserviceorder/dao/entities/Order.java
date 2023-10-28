@@ -1,4 +1,4 @@
-package galaxy.shoppe.microserviceorder.dao.models;
+package galaxy.shoppe.microserviceorder.dao.entities;
 
 import jakarta.persistence.*;
 
@@ -9,39 +9,42 @@ import java.util.Date;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private Integer productId;
+    private long id;
+    private long productId;
 
     private Date orderDate;
 
-    private Integer quantity;
+    private int quantity;
 
-    private Boolean orderPaid;
+    private boolean orderPaid;
+
+    private boolean orderNotified;
 
     public Order() {
     }
 
-    public Order(Long id, Integer productId, Date orderDate, Integer quantity, Boolean orderPaid) {
+    public Order(long id, long productId, Date orderDate, int quantity, boolean orderPaid, boolean orderNotified) {
         this.id = id;
         this.productId = productId;
         this.orderDate = orderDate;
         this.quantity = quantity;
         this.orderPaid = orderPaid;
+        this.orderNotified = orderNotified;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public Integer getProductId() {
+    public long getProductId() {
         return productId;
     }
 
-    public void setProductId(Integer productId) {
+    public void setProductId(long productId) {
         this.productId = productId;
     }
 
@@ -53,19 +56,27 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Integer getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    public Boolean getOrderPaid() {
+    public boolean isOrderPaid() {
         return orderPaid;
     }
 
-    public void setOrderPaid(Boolean orderPaid) {
+    public void setOrderPaid(boolean orderPaid) {
         this.orderPaid = orderPaid;
+    }
+
+    public boolean isOrderNotified() {
+        return orderNotified;
+    }
+
+    public void setOrderNotified(boolean orderNotified) {
+        this.orderNotified = orderNotified;
     }
 }

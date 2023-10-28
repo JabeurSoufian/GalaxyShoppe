@@ -1,6 +1,6 @@
 package galaxy.shoppe.microserviceorder.services.impl;
 
-import galaxy.shoppe.microserviceorder.dao.models.Order;
+import galaxy.shoppe.microserviceorder.dao.entities.Order;
 import galaxy.shoppe.microserviceorder.dao.repository.OrderRepository;
 import galaxy.shoppe.microserviceorder.services.OrderService;
 import org.springframework.stereotype.Service;

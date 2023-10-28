@@ -42,7 +42,7 @@ public class PaymentController {
 
         this.microserviceOrderProxy.updateOrder(order);
 
-        this.notificationService.sendMessage("Hello !!! from payment micro-service");
+        this.notificationService.sendPaidOrderId(String.valueOf(order.getId()));
 
         return new ResponseEntity<>(newPayment, HttpStatus.CREATED);
     }

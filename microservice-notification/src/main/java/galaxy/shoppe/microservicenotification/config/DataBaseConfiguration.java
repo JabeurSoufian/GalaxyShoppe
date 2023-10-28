@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan("galaxy.shoppe.microservicepayment.*")
-@EnableJpaRepositories(basePackages = "galaxy.shoppe.microservicepayment.dao.*")
+@ComponentScan("galaxy.shoppe.microservicenotification.*")
+@EnableJpaRepositories(basePackages = "galaxy.shoppe.microservicenotification.dao.*")
 public class DataBaseConfiguration {
 
 

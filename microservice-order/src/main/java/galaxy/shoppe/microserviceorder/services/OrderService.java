@@ -1,6 +1,6 @@
 package galaxy.shoppe.microserviceorder.services;
 
-import galaxy.shoppe.microserviceorder.dao.models.Order;
+import galaxy.shoppe.microserviceorder.dao.entities.Order;
 
 import java.util.List;
 import java.util.Optional;
