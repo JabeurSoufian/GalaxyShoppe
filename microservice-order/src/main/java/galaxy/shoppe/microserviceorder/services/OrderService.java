@@ -10,5 +10,7 @@ public interface OrderService {
     public List<Order> getOrders();
 
     public Optional<Order> createOrder(Order order);
-    public Optional<Order> getOrderById(Long id);
+    public Optional<Order> getOrderById(long id);
+
+    public Optional<Order> updateOrder(Order order);
 }

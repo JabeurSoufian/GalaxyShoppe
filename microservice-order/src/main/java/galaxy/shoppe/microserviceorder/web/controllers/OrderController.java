@@ -26,12 +26,12 @@ public class OrderController {
         return products;
     }
 
-    @GetMapping(value = "orders/{id}")
-    public Order getOrderById(@PathVariable Long id) {
+    @GetMapping(value = "/orders/{id}")
+    public Order getOrderById(@PathVariable long id) {
 
         Optional<Order> order = orderService.getOrderById(id);
 
-        if (order.isPresent())
+        if (order.isEmpty())
             throw new OrderNotFoundException("The product corresponding to id " + id + " does not exist");
 
         return order.get();
@@ -42,7 +42,17 @@ public class OrderController {
 
         Optional<Order> newOrder = this.orderService.createOrder(order);
 
-        if (newOrder.isEmpty()) throw new OrderNotFoundException("Unable to add this command");
+        if (newOrder.isEmpty()) throw new OrderNotFoundException("Unable to add this order");
+
+        return new ResponseEntity<Order>(order, HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "orders/update")
+    public ResponseEntity<Order> updateOrder(@RequestBody Order order) {
+
+        Optional<Order> newOrder = this.orderService.updateOrder(order);
+
+        if (newOrder.isEmpty()) throw new OrderNotFoundException("Unable to update this order");
 
         return new ResponseEntity<Order>(order, HttpStatus.CREATED);
     }
