@@ -3,6 +3,7 @@ package galaxy.shoppe.microservicepayment.web.controllers;
 import galaxy.shoppe.microservicepayment.dao.entities.Payment;
 import galaxy.shoppe.microservicepayment.models.Order;
 import galaxy.shoppe.microservicepayment.proxies.MicroserviceOrderProxy;
+import galaxy.shoppe.microservicepayment.services.NotificationService;
 import galaxy.shoppe.microservicepayment.services.PaymentService;
 import galaxy.shoppe.microservicepayment.web.exceptions.PaymentException;
 import org.springframework.http.HttpStatus;
@@ -17,9 +18,12 @@ public class PaymentController {
     private final PaymentService paymentService;
     private final MicroserviceOrderProxy microserviceOrderProxy;
 
-    public PaymentController(PaymentService paymentService, MicroserviceOrderProxy microserviceOrderProxy) {
+    private final NotificationService notificationService;
+
+    public PaymentController(PaymentService paymentService, MicroserviceOrderProxy microserviceOrderProxy, NotificationService notificationService) {
         this.paymentService = paymentService;
         this.microserviceOrderProxy = microserviceOrderProxy;
+        this.notificationService = notificationService;
     }
 
     @PostMapping(value = "/payment")
@@ -38,6 +42,7 @@ public class PaymentController {
 
         this.microserviceOrderProxy.updateOrder(order);
 
+        this.notificationService.sendMessage("Hello !!! from payment micro-service");
 
         return new ResponseEntity<>(newPayment, HttpStatus.CREATED);
     }

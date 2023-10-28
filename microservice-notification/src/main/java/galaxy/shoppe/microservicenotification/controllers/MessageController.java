@@ -1,7 +1,7 @@
-package galaxy.shoppe.microservicenotification.controllers;
-
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-public class MessageController {
-}
+//package galaxy.shoppe.microservicenotification.controllers;
+//
+//import org.springframework.web.bind.annotation.RestController;
+//
+//@RestController
+//public class MessageController {
+//}
