@@ -14,3 +14,45 @@ services:
       KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  config-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: config-server
+    ports:
+      - "9101:9101"
+  eureka:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: eureka
+    ports:
+      - "9102:9102"
+  microservice-product:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: microservice-product
+    ports:
+      - "9001:9001"
+  microservice-order:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: microservice-order
+    ports:
+      - "9002:9002"
+  microservice-payment:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: microservice-payment
+    ports:
+      - "9003:9003"
+  microservice-notification:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: microservice-notification
+    ports:
+      - "9004:9004"
