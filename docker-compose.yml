@@ -1,5 +1,19 @@
 version: '2'
 services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+      image: wurstmeister/kafka
+      ports:
+        - "9092:9092"
+      environment:
+        KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://localhost:9092
+        KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+        KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
+        KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
   config-server:
     build:
       context: .
@@ -29,3 +43,104 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  microservice-product:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: microservice-product
+    environment:
+        - SPRING_CLOUD_CONFIG_URI:http://config-server:9101
+        - SPRING_DATASOURCE_URL:jdbc:postgresql://db:5432/galaxy_shoppe
+        - SPRING_DATASOURCE_USERNAME=postgres
+        - SPRING_DATASOURCE_PASSWORD=root
+    ports:
+      - "9001:9001"
+    depends_on:
+      config-server:
+          condition: service_healthy
+      - db
+    healthcheck:
+      test: [ "CMD-SHELL", "curl http://localhost:9001/actuator/health/readiness | grep UP || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  microservice-order:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      image: microservice-order
+      environment:
+        - SPRING_CLOUD_CONFIG_URI:http://config-server:9101
+        - SPRING_DATASOURCE_URL:jdbc:postgresql://db:5432/galaxy_shoppe
+        - SPRING_DATASOURCE_USERNAME=postgres
+        - SPRING_DATASOURCE_PASSWORD=root
+      ports:
+        - "9002:9002"
+      depends_on:
+        config-server:
+          condition: service_healthy
+        - db
+      healthcheck:
+        test: [ "CMD-SHELL", "curl http://localhost:9002/actuator/health/readiness | grep UP || exit 1" ]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+  microservice-payment:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      image: microservice-payment
+      environment:
+        - SPRING_CLOUD_CONFIG_URI:http://config-server:9101
+        - SPRING_DATASOURCE_URL:jdbc:postgresql://db:5432/galaxy_shoppe
+        - SPRING_DATASOURCE_USERNAME=postgres
+        - SPRING_DATASOURCE_PASSWORD=root
+        - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      ports:
+        - "9003:9003"
+      depends_on:
+        config-server:
+          condition: service_healthy
+        - db
+        - kafka
+      healthcheck:
+        test: [ "CMD-SHELL", "curl http://localhost:9003/actuator/health/readiness | grep UP || exit 1" ]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+  microservice-notification:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      image: microservice-notification
+      environment:
+        - SPRING_CLOUD_CONFIG_URI:http://config-server:9101
+        - SPRING_DATASOURCE_URL:jdbc=postgresql://db:5432/galaxy_shoppe
+        - SPRING_DATASOURCE_USERNAME=postgres
+        - SPRING_DATASOURCE_PASSWORD=root
+        - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      ports:
+        - "9004:9004"
+      depends_on:
+        config-server:
+          condition: service_healthy
+        - db
+        - kafka
+      healthcheck:
+        test: [ "CMD-SHELL", "curl http://localhost:9004/actuator/health/readiness | grep UP || exit 1" ]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    environment:
+      - POSTGRES_DB=galaxy_shoppe
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+    ports:
+      - "5432:5432"
+    volumes:
+        - db:/var/lib/postgresql/data
+volumes:
+    db:
