@@ -21,6 +21,10 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void sendPaidOrderId(String orderId) {
+		
+		System.err.println("StART Sending notification !!!!");
         this.kafkaTemplate.send(this.kafkaProperties.getPaymentNotificationTopic(), orderId);
+		
+		System.err.println("End of Sending notification !!!! Where id: "+ orderId);
     }
 }
