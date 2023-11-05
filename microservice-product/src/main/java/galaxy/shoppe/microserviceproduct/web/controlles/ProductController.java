@@ -28,7 +28,7 @@ public class ProductController {
     @GetMapping("/products/{id}")
     public Product getProductById(@PathVariable long id) {
         Optional<Product> product = productService.getProductById(id);
-        if (product.isPresent())
+        if (!product.isPresent())
             throw new ProductNotFoundException("The product corresponding to id " + id + " does not exist");
         return product.get();
     }

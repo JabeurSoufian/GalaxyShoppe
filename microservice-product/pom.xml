@@ -8,7 +8,7 @@
 		<version>3.1.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>galaxy.shoppe</groupId>
+	<groupId>galaxy.shop</groupId>
 	<artifactId>microservice-product</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>microservice-product</name>
